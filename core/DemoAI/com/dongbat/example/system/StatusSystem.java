@@ -55,7 +55,7 @@ public class StatusSystem extends EntityProcessingSystem {
 			SpriteBatch batch) {
 		float w = font.getBounds(message).width;
 		float h = font.getBounds(message).height;
-		float wrapped = 100;
+		float wrapped = 160;
 		font.drawWrapped(batch, message, position.x
 				- ((wrapped < w) ? wrapped / 2 : w / 2), position.y - h / 2
 				+ 40, wrapped);

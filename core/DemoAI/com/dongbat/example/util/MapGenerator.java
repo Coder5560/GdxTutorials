@@ -13,12 +13,13 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.dongbat.example.component.BoundingComponent;
 import com.dongbat.example.component.InputComponent;
+import com.dongbat.example.component.MessageHandleComponent;
 import com.dongbat.example.component.Physics;
 import com.dongbat.example.component.StatusComponent;
 import com.dongbat.example.component.WallTypeComponent;
 
 public class MapGenerator {
-	private TiledMap	map;
+	private TiledMap map;
 
 	public MapGenerator() {
 		super();
@@ -26,10 +27,10 @@ public class MapGenerator {
 
 	private void load(int level) {
 		switch (level) {
-			case 0:
-			default:
-				map = new TmxMapLoader().load("map.tmx");
-				break;
+		case 0:
+		default:
+			map = new TmxMapLoader().load("map.tmx");
+			break;
 		}
 	}
 
@@ -43,13 +44,17 @@ public class MapGenerator {
 						.getRectangle();
 				Vector2 position = new Vector2();
 				bound.getCenter(position);
+				StatusComponent statusComponent = new StatusComponent("", 1);
 				Entity entity = world.createEntity().edit()
 						.add(new Physics(position, new Vector2()))
 						.add(new BoundingComponent(bound.width, bound.height))
 						.add(new WallTypeComponent(true, 5, Color.GRAY))
-						.add(new InputComponent(true))
-						.add(new StatusComponent("", 1)).getEntity();
+						.add(new InputComponent(true)).add(statusComponent)
+						.getEntity();
+				entity.edit().add(new MessageHandleComponent(entity));
+				
 				world.getManager(GroupManager.class).add(entity, "wall");
+
 			}
 		}
 		map.dispose();

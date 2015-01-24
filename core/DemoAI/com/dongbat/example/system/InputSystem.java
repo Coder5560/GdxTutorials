@@ -9,21 +9,24 @@ import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.badlogic.gdx.math.Vector2;
 import com.dongbat.example.component.BoundingComponent;
 import com.dongbat.example.component.InputComponent;
+import com.dongbat.example.component.MessageHandleComponent;
 import com.dongbat.example.component.Physics;
 import com.dongbat.example.component.StatusComponent;
+import com.dongbat.example.util.MessageCode;
 
 @Wire
 public class InputSystem extends EntityProcessingSystem {
-	ComponentMapper<Physics>			pm;
-	ComponentMapper<BoundingComponent>	bm;
-	ComponentMapper<InputComponent>		im;
-	ComponentMapper<StatusComponent>	sm;
-	InputHandleSystem					inputHandleSystem;
+	ComponentMapper<Physics> pm;
+	ComponentMapper<BoundingComponent> bm;
+	ComponentMapper<InputComponent> im;
+	ComponentMapper<MessageHandleComponent> mm;
+	ComponentMapper<StatusComponent> sm;
+	InputHandleSystem inputHandleSystem;
 
 	@SuppressWarnings("unchecked")
 	public InputSystem() {
 		super(Aspect.getAspectForAll(Physics.class, BoundingComponent.class,
-				InputComponent.class));
+				MessageHandleComponent.class, InputComponent.class));
 	}
 
 	@Override
@@ -37,7 +40,11 @@ public class InputSystem extends EntityProcessingSystem {
 			if (inputHandleSystem.hit(position, boundingComponent.getWidth(),
 					boundingComponent.getHeight())) {
 				StatusComponent statusComponent = sm.get(e);
-				statusComponent.setStatus("You Touch me !");
+				MessageHandleComponent messageHandleComponent = mm.get(e);
+				MessageDispatcher.getInstance().dispatchMessage(
+						messageHandleComponent,
+						MessageCode.MS_ASK_NEAR_NEIGHBOUR);
+				statusComponent.setStatus("Hey guys,Where are you?");
 				statusComponent.setTimeExpire(1f);
 			}
 		}
