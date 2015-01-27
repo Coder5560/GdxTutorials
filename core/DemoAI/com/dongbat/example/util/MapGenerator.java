@@ -12,10 +12,9 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.dongbat.example.component.BoundingComponent;
-import com.dongbat.example.component.InputComponent;
-import com.dongbat.example.component.MessageHandleComponent;
 import com.dongbat.example.component.Physics;
 import com.dongbat.example.component.StatusComponent;
+import com.dongbat.example.component.TouchableComponent;
 import com.dongbat.example.component.WallTypeComponent;
 
 public class MapGenerator {
@@ -49,10 +48,9 @@ public class MapGenerator {
 						.add(new Physics(position, new Vector2()))
 						.add(new BoundingComponent(bound.width, bound.height))
 						.add(new WallTypeComponent(true, 5, Color.GRAY))
-						.add(new InputComponent(true)).add(statusComponent)
+						.add(statusComponent)
+						.add(new TouchableComponent(true))
 						.getEntity();
-				entity.edit().add(new MessageHandleComponent(entity));
-				
 				world.getManager(GroupManager.class).add(entity, "wall");
 
 			}

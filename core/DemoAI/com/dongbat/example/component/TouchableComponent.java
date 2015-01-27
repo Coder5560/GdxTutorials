@@ -2,10 +2,14 @@ package com.dongbat.example.component;
 
 import com.artemis.Component;
 
-public class InputComponent extends Component {
-	private boolean	touchable	= false;
+public class TouchableComponent extends Component {
+	private boolean touchable = false;
 
-	public InputComponent(boolean touchable) {
+	public TouchableComponent() {
+		super();
+	}
+
+	public TouchableComponent(boolean touchable) {
 		super();
 		this.touchable = touchable;
 	}
